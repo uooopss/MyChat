@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple login</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
+    <script>
+      $(document).ready(function(){
+        var user,pass;
+        $("#submit").click(function(){
+          user=$("#user").val();
+          pass=$("#password").val();
+          var act = $("select[name='action']").val();
+          $.post("http://localhost:3000/sum",{user: user,password: pass, action: act}, function(data){
+            /* if(data==='done')
+              {
+                alert("login success");  
+              } */
+              $('#result').html(data);
+              // console.log(act);
+          });
+          
+        });
+
+        $("#submit1").click(function(){          
+          user=$("#user").val();
+          pass=$("#password").val();
+          var act = $("select[name='action']").val();
+        
+          $.get("http://localhost:3000/sum?n1="+user+"&n2="+pass+"&op="+act, function(data){
+            /* if(data==='done')
+              {
+                alert("login success"); 
+              } */
+              $('#result').html(data);
+              // console.log(act);
+          });
+        });
+      });
+
+      
+        
+    </script>
+  </head>
+  <body>
+    <h1>Hello people !</h1>
+    <input type="TEXT" id="user" size="40"><br>
+    <input type="TEXT" id="password" size="40"><br>
+    
+    <select name="action">
+      <option>+</option>
+      <option>-</option>
+      <option>*</option>
+      <option>/</option>
+    </select>
+    <input type="button" id="submit" value="post"><br>
+    <input type="button" id="submit1" value="get"><br>
+    <div id="result">
+
+    </div>
+    <!-- <% if (result) { %>
+            <p><%= result %></p>
+        <% } %> -->
+       <!--  <form action="" method="post">
+          <fieldset>
+
+              <input type="text" id="name" name="name" />
+  
+              <input type="text" id="password"  />
+  
+              <input type="submit" value="Send message" />
+  
+          </fieldset>
+      </form> -->
+    <script src="server.js"></script>
+  </body>
+</html>
