@@ -11,7 +11,7 @@ var findOne = function(data, callback) {
     userModel.findOne(data, callback);
 }
 
-var findById = function(id, callback) {
+var findById = function(data, callback) {
     userModel.findById(data, callback);
 }
 

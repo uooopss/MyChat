@@ -24,10 +24,10 @@ router.get('/', function(req, res, next) {
 /*
  * Authentication
  */
-router.post('/login'/* , passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {
   successRedirect: '/rooms',
   failureRedirect: '/'
-}) */, function
+}), function
 (req, res){
   // res.send('login_result')
   res.redirect('/rooms');
@@ -58,26 +58,26 @@ router.post('/register', function(req, res, next) {
   if(credentials.username === '' || credentials.password === '') {
     // req.flash('error', 'missing credentials');
     //req.flash('showRegisterForm', true);
-    console.log(req.body.user + ' REDIRECT1');
+    console.log(' REDIRECT1');
     res.redirect('/');
    
   }else {
     // Check if the username already exists for non-social account
     User.findOne({'username': new RegExp('^' + req.body.username + '$' + 'i')}, function(er,user) {
-      console.log('REDIRECT2');
+      
       if(er) throw er;
 			if(user){
 				// req.flash('error', 'Username already exists.');
         //req.flash('showRegisterForm', true);
-        res.send(req.body.username + 'REDIRECT2');
+        console.log('REDIRECT2');
         res.redirect('/');
         
 			}else{
 				User.create(credentials, function(err, newUser){
-          console.log('REDIRECT3');
 					if(err) throw err;
           // req.flash('success', 'Your account has been created. Please log in.');
-          res.send(req.body.username + 'REDIRECT3');
+          
+          console.log('REDIRECT3');
 					res.redirect('/');
 				});
 			}

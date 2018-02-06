@@ -3,7 +3,7 @@
 //var config = require('../config');
 
 var mongoose = require('mongoose');
-var dbURI = "mongodb://localhost:27017/mychat";
+var dbURI = "mongodb://localhost:27017/mychatio";
 mongoose.connect(dbURI);
 
 mongoose.connection.on('error', function(err) {

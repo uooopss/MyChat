@@ -23,7 +23,7 @@ userSchema.pre('save', function(next) {
         if(err) return next(err);
 
         //пароль будет использовать новый хэш составленный из salt
-        bcrypt.hash(user.password, salt, function(err, hash) {
+        bcrypt.hash(user.password, salt, null, function(err, hash) {
             if(err) return next(err);
 
             //переписываем наш прошлый хэш новым

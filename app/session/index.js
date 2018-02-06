@@ -1,3 +1,5 @@
+import { triggerAsyncId } from 'async_hooks';
+
 'use strict';
 
 //про про сессии   https://nodeguide.ru/doc/dailyjs-nodepad/node-tutorial-5/ 
@@ -11,8 +13,8 @@ var init = function () {
     if(process.env.NODE_ENV === 'production') {
 		return session({
 			secret: 'session MyChat',
-			resave: false,
-			saveUninitialized: false,
+			resave: true,
+			saveUninitialized: true,
 			unset: 'destroy',
 			store: new mongoStore({ mongooseConnection: db.mongoose.connection })
 		});
