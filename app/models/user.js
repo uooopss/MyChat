@@ -4,7 +4,7 @@ var userModel = require('../database').models.user;
 
 var create = function(data, callback) {
     var newUser = new userModel(data);
-    newUSer.save(callback);
+    newUser.save(callback);
 }
 
 var findOne = function(data, callback) {

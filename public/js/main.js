@@ -1,5 +1,6 @@
 'use strict';
-
+var app = function(){
+  alert("dsg");
 $(document).ready(function(){
         var user,pass;
         $("#submitLogin").click(function(){
@@ -30,5 +31,5 @@ $(document).ready(function(){
         $('.message a').click(function(){
             $('form').animate({height: "toggle", opacity: "toggle"});
           });
-
+        }
 
