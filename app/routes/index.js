@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 			errors: req.flash('error') */
     }
   }
-});
+}); 
 
 /*
  * Authentication
@@ -110,9 +110,30 @@ router.get('/rooms'/* , passport.authenticate('local', {
 }) */, function
 (req, res){
   console.log("rooms");
-  res.render('rooms');
+  if(!(req.isAuthenticated())){
+    res.redirect('/login');
+  }else {
+    res.render('rooms'), {
+/*       success: req.flash('success')[0],
+			errors: req.flash('error') */
+    }
+  }
 });
 
+/*
+ * Logout
+ */
 
+router.get('/logout', function(req, res, next) {
+	// remove the req.user property and clear the login session
+	req.logout();
+
+	// destroy session data
+//	req.session = null;
+
+  console.log("logout button");
+	// redirect to homepage
+	res.redirect('/login');
+});
 
 module.exports = router;

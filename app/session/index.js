@@ -13,8 +13,8 @@ var init = function () {
     if(process.env.NODE_ENV === 'production') {
 		return session({
 			secret: 'session MyChat',
-			resave: true,
-			saveUninitialized: true,
+			resave: false,
+			saveUninitialized: false,
 			unset: 'destroy',
 			store: new mongoStore({ mongooseConnection: db.mongoose.connection })
 		});

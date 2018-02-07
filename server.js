@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
  app.use(express.static('public'));
  
  app.use(require('express-session')({
-  secret: 'session mychat',
+  secret: 'session MyChat',
   resave: true,
   saveUninitialized: true
 }));
