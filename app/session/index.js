@@ -1,10 +1,8 @@
-import { triggerAsyncId } from 'async_hooks';
-
 'use strict';
 
 //про про сессии   https://nodeguide.ru/doc/dailyjs-nodepad/node-tutorial-5/ 
 
-var seesion = require('express-session');
+var session = require('express-session');
 var mongoStore = require('connect-mongodb')(session);
 var db = require('../database');
 

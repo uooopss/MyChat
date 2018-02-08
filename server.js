@@ -1,17 +1,13 @@
 'use strict';
 
-var express = require('express');
-//var mongoClient = require('mongodb').MongoClient;
-var bodyParser = require("body-parser");
-var path 		= require('path');
-//var db = require('./config/db');
-var app = express();
-// var passport = require('passport');
-var routes 		= require('./app/routes');
- var passport    = require('./app/auth');
-//var ioServer = require('./app/socket')(app);
-
-
+var express    =  require('express');
+var bodyParser =  require("body-parser");
+var path 	    	= require('path');
+var app        =  express();
+var flash      =  require("connect-flash");
+var routes 	 	=   require('./app/routes');
+var passport   =  require('./app/auth');
+var ioServer   =  require('./app/socket')(app);
 
 //Каталог или массив каталогов для представлений приложения. path.join объединяет пути
 app.set('views', path.join(__dirname, './app/views'));
@@ -36,12 +32,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(flash());
 //если получаем запрос к корню, то переходим в каталог routes
 app.use('/', routes);
 
 
 //слушаем порт 3000
-//ioServer.listen(port);
+ioServer.listen(port);
 
 
 /* mongoClient.connect(db.url, (err, db) => {
@@ -63,8 +60,8 @@ app.use('/', routes);
   // res.send('<p> result </p>');
 }); */
  
-app.listen(3000, function () {
-});
+/* app.listen(3000, function () {
+}); */
 
 
 

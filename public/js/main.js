@@ -1,35 +1,37 @@
 'use strict';
-var app = function(){
-  alert("dsg");
-$(document).ready(function(){
-        var user,pass;
-        $("#submitLogin").click(function(){
-          user=$("input[name='username']").val();
-          pass=$("input[name='password']").val();
-          $.post("http://localhost:3000/login",{user: user,password: pass}, function(data){
-            
-              $('#result').html(data);
-              
-          });
-          
-        });
 
-        $("#submitCreate").click(function(){          
-          user=$("input[name='username']").val();
-          pass=$("input[name='password']").val();        
-          $.post("http://localhost:3000/register",{user: user,password: pass}, function(data){
-            
-              $('#result').html(data);
-              
-          });
-        });
-      });
+var app = { 
+  rooms: function(){
+  var socket = io.connect('/rooms', { transports: ['websocket']});
 
-        $('.register-form').hide(); 
-        $('.login-form').show();
+    // socket.on('connect', function() {
 
-        $('.message a').click(function(){
-            $('form').animate({height: "toggle", opacity: "toggle"});
-          });
+      socket.on('news', function(data) {
+        console.log(data);
+      })
+      socket.emit('n', {my: 'NAMe'});
+
+      socket.on('updataRommsList', function(room) {
+        if(room.error != null) {
+          console.log(room.error);
+        }else {
+          var html = '<a href="#"><li class="room-item">' + room.title + '</li></a>';
+          if($(".room-list ul li").length > 0){
+            $('.room-list ul').prepend(html);
+          }else{
+            $('.room-list ul').html('').html(html);
+          }
         }
+      })
+
+      $('.room-create button').on('click', function(e) {
+        alert('qwerty1');
+        var roomTitle = $('input[name="title"]').val().trim();
+        if(roomTitle !== '') {
+          socket.emit('createRoom', roomTitle);
+        }
+      })
+    // })
+  }
+};
 
