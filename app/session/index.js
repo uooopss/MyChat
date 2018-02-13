@@ -3,7 +3,7 @@
 //про про сессии   https://nodeguide.ru/doc/dailyjs-nodepad/node-tutorial-5/ 
 
 var session = require('express-session');
-var mongoStore = require('connect-mongodb')(session);
+var mongoStore = require('connect-mongo')(session);
 var db = require('../database');
 
 var init = function () {

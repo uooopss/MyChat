@@ -4,6 +4,7 @@ var passport 	= require('passport');
 var flash = require("connect-flash");
 
 var User = require('../models/user');
+var Room = require('../models/room');
 
 router.get('/', function(req, res, next) {
   if(req.isAuthenticated()){
@@ -70,15 +71,37 @@ router.get('/register', function (req, res){
 /*
  * Rooms
  */
-router.get('/rooms', function
-(req, res){
+router.get('/rooms', function (req, res){
+  Room.find(function(err, rooms) {
+if(err) return err;
+
   console.log("rooms");
   if(!(req.isAuthenticated())){
     res.redirect('/login');
   }else {
-    res.render('rooms');
+    res.render('rooms', {rooms});
   }
+})
 });
+
+// Chat Room 
+router.get('/chat/:id', [User.isAuthenticated, function(req, res, next) {
+  var roomId = req.params.id;
+  
+  console.log("chat room");
+  Room.find(function(err, rooms) {
+    if(err) return err;
+	Room.findById(roomId, function(err, room){
+		if(err) throw err;
+		if(!room){
+			return next(); 
+    }
+		res.render('chatroom', { user: req.user, room: room, rooms });
+  });
+})
+	
+}]);
+
 
 /*
  * Logout
