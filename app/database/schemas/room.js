@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var roomSchema = new mongoose.Schema({
     title:{type: String, required:true},
     connections: { type: [{userId:String, socketId: String}]},
-    messages: {type: [{roomId: String, username: String, messageText: String, date: {type: Date}}]}
+    messages: {type: [{roomId: String, username: String, messageText: String, date: {type: Date, default: Date.now}}]}
 });
 
 var roomModel = mongoose.model('room', roomSchema);

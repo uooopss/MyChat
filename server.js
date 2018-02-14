@@ -32,8 +32,4 @@ app.use(flash());
 //если получаем запрос к корню, то переходим в каталог routes
 app.use('/', routes);
 
-
 ioServer.listen(port);
-
-
-

@@ -1,12 +1,14 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt-nodejs');
+
 //для хеширования и хранения паролей
+var bcrypt = require('bcrypt-nodejs');
 
-const SALT_WORK_FACTOR = 10;
 //фактор работы или количество раундов обработки данных. используется в хэшировании
+const SALT_WORK_FACTOR = 10;
 
+// из чего будет состоять наша модель юзера
 var userSchema = new mongoose.Schema({
     username: {type: String, required: true},
     password: { type: String, default: null }

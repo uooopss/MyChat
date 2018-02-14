@@ -34,7 +34,7 @@ var ioEvents = function(io) {
 	// Chatroom namespace
 	io.of('/chatroom').on('connection', function(socket) {
 
-		// Join a chatroom
+		// получаем roomId, проверяем на есть или нету
 		socket.on('join', function(roomId) {
 			Room.findById(roomId, function(err, room){
 				if(err) throw err;
@@ -43,11 +43,13 @@ var ioEvents = function(io) {
 					// Then, if a room doesn't exist here, return an error to inform the client-side.
 					socket.emit('updateUsersList', { error: 'Room doesnt exist.' });
 				} else {
-					// Check if user exists in the session
+
+					// проверяем есть ли юзер в сессии
 					if(socket.request.session.passport == null){
 						return;
 					}
 
+                    // добавляем юзера в боковую колонку
 					Room.addUser(room, socket, function(err, newRoom){
                     
 						// Join the room channel
@@ -71,9 +73,13 @@ var ioEvents = function(io) {
 			});
 		});
 
-		// When a socket exits
-		socket.on('disconnect', function() {
+        // When a socket exits
+        // вызывается , когда выходим из chatroom. потому что созданный сокет в нашей chatoom пропадает,
+        // не имеет отношение к сокету из room
+        // соединение разрывается, когда меняем роут
 
+		socket.on('disconnect', function() {
+            
 			// Check if user exists in the session
 			if(socket.request.session.passport == null){
 				return;
@@ -134,10 +140,8 @@ var init = function(app){
 	var io 		= require('socket.io')(server);
 
 	// Force Socket.io to ONLY use "websockets"; No Long Polling.
-	io.set('transports', ['websocket']);
-
-	// Using Redis
-	
+    io.set('transports', ['websocket']);
+    	
 	// Allow sockets to access session data
 	io.use((socket, next) => {
 		require('../session')(socket.request, {}, next);

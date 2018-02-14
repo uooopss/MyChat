@@ -25,21 +25,27 @@ var findByIdAndUpdate = function(id, data, callback){
 }
 
 /**
- * Add a user along with the corresponding socket to the passed room
+ * добавление юзера с соответсвующим сокетом
  *
  */
+
 var addUser = function(room, socket, callback){
 	
 	// Get current user's id
 	var userId = socket.request.session.passport.user;
+
 	// Push a new connection object(i.e. {userId + socketId})
 	var conn = { userId: userId, socketId: socket.id};
 	room.connections.push(conn);
 	room.save(callback);
 }
 
-var  addMessage = function(room, message,socket, callback) {
+/**
+ * добавление сообщения
+ *
+ */
 
+var  addMessage = function(room, message,socket, callback) {
 
 	var mess = {roomId: room.id, username: message.username, messageText: message.content, date: message.date};  
     room.messages.push(mess);
@@ -48,9 +54,10 @@ var  addMessage = function(room, message,socket, callback) {
 }
 
 /**
- * Get all users in a room
+ * получение всех юзер в комнате
  *
  */
+
 var getUsers = function(room, socket, callback){
 
 	var users = [], vis = {}, cunt = 0;
@@ -74,21 +81,23 @@ var getUsers = function(room, socket, callback){
 	// Loop on each user id, Then:
 	// Get the user object by id, and assign it to users array.
 	// So, users array will hold users' objects instead of ids.
+	var _Users = [];
 	users.forEach(function(userId, i){
 		User.findById(userId, function(err, user){
 			if (err) { return callback(err); }
-			users[i] = user;
+			_Users.push(user);
 			if(i + 1 === users.length){
-				return callback(null, users, cunt);
+				return callback(null, _Users, cunt);
 			}
 		});
 	});
 }
 
 /**
- * Remove a user along with the corresponding socket from a room
+ * удаление юзера с соответсвующим сокетом из комнаты
  *
  */
+
 var removeUser = function(socket, callback){
 
 	// Get current user's id

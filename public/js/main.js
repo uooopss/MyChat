@@ -6,8 +6,12 @@ var app = {
 
     var socket = io('/rooms', { transports: ['websocket'] });
 
-    // When socket connects, get a list of chatrooms
+    // когда сокет подконектился получаем список комнат
     socket.on('connect', function () {
+
+      // нажимаем на кнопку создать и отсылаем название кнопки на сервер.
+      // сервер проверяет есть ли комната с таким названием.
+      // если есть, то присылает сообщение с ошибкой. если нет то рассылает комнату по всем юзерам
 
       // Update rooms list upon emitting updateRoomsList event
       socket.on('updateRoomsList', function(room) {
@@ -17,6 +21,7 @@ var app = {
         if(room.error != null){
           $('.room-create').append(`<p class="message error">${room.error}</p>`);
         }else{
+          // добавление комнаты в html
           app.helpers.updateRoomsList(room);
         }
       });
@@ -34,13 +39,14 @@ var app = {
     });
   },
 
+  // получаем roomId и username из chatroom.ejs
   chat: function(roomId, username){
     
     var socket = io('/chatroom', { transports: ['websocket'] });
 
-      // When socket connects, join the current chatroom
       socket.on('connect', function () {
 
+        // отсылаем roomId на сервер
         socket.emit('join', roomId);
 
         // Update users list upon emitting updateUsersList event
@@ -72,15 +78,13 @@ var app = {
         
         socket.on('addMessage', function( message, mess) {
           app.helpers.addMessage(message, mess);
-        });    
-        
+        });         
 
         // Whenever a user leaves the current room, remove the user from users list
         socket.on('removeUser', function(userId) {
           $('li#user-' + userId).remove();
           app.helpers.updateNumOfUsers();
-        });
-        
+        });        
       });
   },
 
@@ -135,7 +139,6 @@ var app = {
 
     // Adding a new message to chat history
     addMessage: function(message, mess){
-      mess.date      = (new Date(mess.date)).toLocaleString();
       mess.username  = this.encodeHTML(mess.username);
       mess.messageText   = this.encodeHTML(mess.messageText);
 

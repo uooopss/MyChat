@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
+
 var dbURI = "mongodb://localhost:27017/mychatio";
 mongoose.connect(dbURI);
 
@@ -8,7 +9,6 @@ mongoose.connection.on('error', function(err) {
     if(err) throw err;
 });
 
-//просто нужно
 mongoose.Promise = global.Promise;
 
 module.exports = {mongoose, models: {
